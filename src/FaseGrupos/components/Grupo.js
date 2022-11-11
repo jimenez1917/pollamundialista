@@ -65,12 +65,15 @@ function Grupo({
   }));
 
   const fetchData = async () => {
-    await fetch(`/fasegrupos/${Group}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    })
+    await fetch(
+      `https://pollamundialista17.herokuapp.com/fasegrupos/${Group}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((response) => {
         setResolve(response);
@@ -212,13 +215,16 @@ function Grupo({
       },
     ];
     obj[key] = body;
-    await fetch(`/fasegrupos/resultados`, {
-      method: "PUT",
-      body: JSON.stringify(obj),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
+    await fetch(
+      `https://pollamundialista17.herokuapp.com/fasegrupos/resultados`,
+      {
+        method: "PUT",
+        body: JSON.stringify(obj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
       console.log(response);
     });
   };

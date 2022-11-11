@@ -7,11 +7,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 function FaseGrupos() {
   const fetchData = async () => {
-    console.log("llama");
     await fetch("/fasegrupos", {
       method: "GET",
     }).then((response) => {
-      console.log(response);
       if (response.redirected) {
         window.location.href = response.url;
       }
