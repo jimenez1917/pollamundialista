@@ -17,7 +17,7 @@ function FaseGrupos() {
   };
   useEffect(() => {
     fetchData();
-  });
+  }, []);
   const [enableGrupoA, setEnableGrupoA] = useState(false);
   const [enableGrupoB, setEnableGrupoB] = useState(false);
   const [enableGrupoC, setEnableGrupoC] = useState(false);

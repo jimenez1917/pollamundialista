@@ -25,11 +25,12 @@ function Grupo({
   //fetch resolve
   const [resolve, setResolve] = useState();
   //await resolve
+  const [loadingResolve, setLoadingResolve] = useState(false);
   //datos filtrados
   const [partidos, setPartidos] = useState();
   //await datosFiltrados para render
   const [loading, setLoading] = useState(false);
-  //Banderas
+  let loadingfetch;
   //Resultados estimados
   let partido1;
   let partido2;
@@ -65,25 +66,23 @@ function Grupo({
   }));
 
   const fetchData = async () => {
-    await fetch(
-      `https://pollamundialista17.herokuapp.com/fasegrupos/${Group}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    )
+    await fetch(`/fasegrupos/${Group}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((response) => {
         setResolve(response);
+        setLoadingResolve(true);
       });
   };
   useEffect(() => {
     fetchData();
-  });
+  }, []);
   useEffect(() => {
-    if (resolve) {
+    if (loadingResolve) {
       let partidosWithOutId = Object.entries(resolve).filter(([key, value]) =>
         key.match("par")
       );
@@ -93,7 +92,7 @@ function Grupo({
       setPartidos(parsePartidosArray);
       setLoading(true);
     }
-  }, [resolve]);
+  }, [loadingResolve]);
 
   const handleRivalLocal = (value, i, key, date) => {
     console.log(key);
@@ -215,16 +214,13 @@ function Grupo({
       },
     ];
     obj[key] = body;
-    await fetch(
-      `https://pollamundialista17.herokuapp.com/fasegrupos/resultados`,
-      {
-        method: "PUT",
-        body: JSON.stringify(obj),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
+    await fetch(`/fasegrupos/resultados`, {
+      method: "PUT",
+      body: JSON.stringify(obj),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
       console.log(response);
     });
   };

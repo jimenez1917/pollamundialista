@@ -28,7 +28,7 @@ export default function SignIn() {
       username: data.get("username"),
       password: data.get("password"),
     };
-    await fetch("https://pollamundialista17.herokuapp.com/signup", {
+    await fetch("/signup", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
