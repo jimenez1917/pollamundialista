@@ -25,7 +25,6 @@ function Grupo({
   //fetch resolve
   const [resolve, setResolve] = useState();
   //await resolve
-  const [stateResolve, setStateResolve] = useState(false);
   //datos filtrados
   const [partidos, setPartidos] = useState();
   //await datosFiltrados para render
@@ -57,24 +56,6 @@ function Grupo({
   let sextoPartidoRival1 = null;
   let sextoPartidoRival2 = null;
 
-  // const [primerPartidoRival1, setPrimerPartidoRival1] = useState(null);
-  // const [primerPartidoRival2, setPrimerPartidoRival2] = useState(null);
-
-  // const [segundoPartidoRival1, setSegundoPartidoRival1] = useState(null);
-  // const [segundoPartidoRival2, setSegundoPartidoRival2] = useState(null);
-
-  // const [tercerPartidoRival1, setTercerPartidoRival1] = useState(null);
-  // const [tercerPartidoRival2, setTercerPartidoRival2] = useState(null);
-
-  // const [cuartoPartidoRival1, setCuartoPartidoRival1] = useState(null);
-  // const [cuartoPartidoRival2, setCuartoPartidoRival2] = useState(null);
-
-  // const [quintoPartidoRival1, setQuintoPartidoRival1] = useState(null);
-  // const [quintoPartidoRival2, setQuintoPartidoRival2] = useState(null);
-
-  // const [sextoPartidoRival1, setSextoPartidoRival1] = useState(null);
-  // const [sextoPartidoRival2, setSextoPartidoRival2] = useState(null);
-
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -93,61 +74,23 @@ function Grupo({
       .then((response) => response.json())
       .then((response) => {
         setResolve(response);
-        setStateResolve(true);
       });
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  });
   useEffect(() => {
-    if (stateResolve) {
-      let partidosWithOutId = Object.entries(resolve).filter(([key, value]) => {
-        if (key.match("par")) {
-          return value;
-        }
-      });
+    if (resolve) {
+      let partidosWithOutId = Object.entries(resolve).filter(([key, value]) =>
+        key.match("par")
+      );
       let parsePartidosArray = partidosWithOutId.map((partido) => {
         return Object.entries(partido[1]);
       });
       setPartidos(parsePartidosArray);
       setLoading(true);
     }
-  }, [stateResolve]);
-
-  // const handleOldResult = (partidosparseados) => {
-  //   for (let x in partidosparseados) {
-  //     if (x == 0) {
-  //       primerPartidoRival1 = partidosparseados[x][1][1];
-  //       primerPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     if (x == 1) {
-  //       segundoPartidoRival1 = partidosparseados[x][1][1];
-  //       segundoPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     if (x == 2) {
-  //       tercerPartidoRival1 = partidosparseados[x][1][1];
-  //       tercerPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     if (x == 3) {
-  //       cuartoPartidoRival1 = partidosparseados[x][1][1];
-  //       cuartoPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     if (x == 4) {
-  //       quintoPartidoRival1 = partidosparseados[x][1][1];
-  //       quintoPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     if (x == 5) {
-  //       sextoPartidoRival1 = partidosparseados[x][1][1];
-  //       sextoPartidoRival2 = partidosparseados[x][2][1];
-  //     }
-  //     console.log(primerPartidoRival1);
-  //     console.log(segundoPartidoRival1);
-  //     console.log(tercerPartidoRival1);
-  //     console.log(cuartoPartidoRival1);
-  //     console.log(quintoPartidoRival1);
-  //     console.log(sextoPartidoRival1);
-  //   }
-  // };
+  }, [resolve]);
 
   const handleRivalLocal = (value, i, key, date) => {
     console.log(key);
